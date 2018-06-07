@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import { View, Text, Image, TouchableOpacity, FlatList } from 'react-native';
 import { Actions } from 'react-native-router-flux';
+import { connect } from 'react-redux';
+
 import { Header } from './common/Header';
 import { Card } from './common/Card';
+import * as actions from '../actions';
 import { dummyProjects } from '../../resources/externalResources';
 
 class SelectProjectScreen extends Component {
@@ -10,6 +13,10 @@ class SelectProjectScreen extends Component {
         super(props);
         this.state = {
         };
+    }
+
+    componentWillMount() {
+        console.log(' - SelectProjectScreen - componentWillMount - ');
     }
 
     keyExtractor(item) {
@@ -133,4 +140,11 @@ const styles = {
     },
 };
 
-export default SelectProjectScreen;
+const mapStateToProps = state => {
+    return {
+        user: state.user,
+        workOffline: state.workOffline,
+    };
+};
+
+export default connect(mapStateToProps, actions)(SelectProjectScreen);

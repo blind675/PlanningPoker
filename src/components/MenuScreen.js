@@ -18,9 +18,9 @@ class MenuScreen extends Component {
     componentWillReceiveProps(nextProps) {
         // console.log('got new props in MenuScreen: ', nextProps);
         if (nextProps.workOffline === true) {
-            this.setState({ selectProjectEnabled: false });
-        } else {
             this.setState({ selectProjectEnabled: true });
+        } else {
+            this.setState({ selectProjectEnabled: false });
         }
     }
 
