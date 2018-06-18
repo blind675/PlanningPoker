@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { View, Image, Text, TouchableOpacity } from 'react-native';
+import { View, Image, Text, TouchableOpacity, ImageEditor, ImageStore } from 'react-native';
 import { TextField } from 'react-native-material-textfield';
 import ImagePicker from 'react-native-image-picker';
 import RNFetchBlob from 'react-native-fetch-blob';
+import { MaterialIndicator } from 'react-native-indicators';
 import { Header } from './common/Header';
 import { Card } from './common/Card';
 
@@ -34,68 +35,120 @@ class CreateProjectScreen extends Component {
             }
         };
 
+        this.setState({
+            uploadingImg: true
+        });
+
         ImagePicker.showImagePicker(options, (response) => {
             if (response.didCancel) {
                 console.log('User cancelled image picker');
+                this.setState({
+                    pictureUrl: null,
+                    uploadingImg: false
+                });
             } else if (response.error) {
                 console.log('ImagePicker Error: ', response.error);
+                this.setState({
+                    pictureUrl: null,
+                    uploadingImg: false
+                });
             } else if (response.customButton) {
                 console.log('User tapped custom button: ', response.customButton);
-            } else {
-                // TODO: .. crop image befor sending it to server
-                
-                // TODO: .. show loading animation or something
-                
-                // TODO: .. remove editing from cloudinary
-
                 this.setState({
-                    uploadingImg: true
+                    pictureUrl: null,
+                    uploadingImg: false
                 });
-                
-                uploadFile(response)
-                    .then(uploadResponse => uploadResponse.json())
-                    .then(result => {
-                        console.log('Got uploade response: ', result);
-                        this.setState({
-                            pictureUrl: result.eager[0].secure_url,
-                            uploadingImg: false
-                        });
-                    });
+            } else {
+                //.. show loading animation or something
+
+                console.log('the pick image response:', response);
+
+                const cropData = {
+                    offset: { x: Math.round((response.width - 2040) / 2), y: Math.round((response.height - 1200) / 2) },
+                    size: { width: 2040, height: 1200 },
+                };
+                // crop image befor sending it to server
+                ImageEditor.cropImage(
+                    response.uri,
+                    cropData,
+                    (croppedImageURI) => {
+                        // console.log('Cropping response', croppedImageURI);
+
+                        ImageStore.getBase64ForTag(croppedImageURI,
+                            (base64ImageData) => {
+                                // console.log('ImageStore response', base64ImageData);
+                                this.setState({
+                                    uploadingImg: true
+                                });
+
+                                uploadFile(base64ImageData, response.fileName)
+                                    .then(uploadResponse => uploadResponse.json())
+                                    .then(result => {
+                                        // console.log('Got uploade response: ', result);
+                                        this.setState({
+                                            pictureUrl: result.secure_url,
+                                            uploadingImg: false
+                                        });
+                                        // removed the local cropped image
+                                        ImageStore.removeImageForTag(croppedImageURI);
+                                    });
+                            },
+                            (error) => {
+                                console.log('ImageStore error', error);
+                            }
+                        );
+                    },
+                    (error) => console.log('Error cropping', error)
+                );
             }
         });
     }
 
     render() {
-        const { projectName, description, participants, pictureUrl } = this.state;
+        const { projectName, description, participants, pictureUrl, uploadingImg } = this.state;
 
         return (
             <View style={{ flex: 1 }}>
                 <Header back title={'Create Project'} />
                 <Card style={styles.cardStyle} >
-                    <TouchableOpacity onPress={this.upload}>
-                        {
-                            // TODO: add transparency
-                            pictureUrl ?
-                                <Image
-                                    source={{ uri: pictureUrl }}
-                                    style={{
-                                        width: 170,
-                                        height: 100,
-                                        marginTop: 20
-                                    }}
-                                /> :
-                                <Image
-                                    source={require('../../resources/imagePlaceholder/ImagePlaceholder.png')}
-                                    style={{
-                                        width: 170,
-                                        height: 100,
-                                        marginTop: 20
-                                    }}
-                                />
-                        }
-                    </TouchableOpacity>
-
-
+                    {
+                        uploadingImg ?
+                            <View
+                                style={{
+                                    width: 170,
+                                    height: 100,
+                                    marginTop: 20, 
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                }}
+                            >
+                                <MaterialIndicator color="#A00037" />
+                            </View>
+                            :
+                            <TouchableOpacity onPress={this.upload}>
+                                {
+                                    // TODO: add transparency
+                                    pictureUrl ?
+                                        <Image
+                                            source={{ uri: pictureUrl }}
+                                            style={{
+                                                width: 170,
+                                                height: 100,
+                                                marginTop: 20
+                                            }}
+                                        />
+                                        :
+                                        <Image
+                                            source={require('../../resources/imagePlaceholder/ImagePlaceholder.png')}
+                                            style={{
+                                                width: 170,
+                                                height: 100,
+                                                marginTop: 20
+                                            }}
+                                        />
+                                }
+                            </TouchableOpacity>
+                    }
                     <View style={{ width: 240 }} >
                         <TextField
                             label='Project Name'
@@ -133,11 +186,11 @@ class CreateProjectScreen extends Component {
 }
 
 // Working
-function uploadFile(file) {
+function uploadFile(dataBase64, fileName) {
     return RNFetchBlob.fetch('POST', `https://api.cloudinary.com/v1_1/${YOUR_CLOUDINARY_NAME}/image/upload?upload_preset=${YOUR_CLOUDINARY_PRESET}`, {
         'Content-Type': 'multipart/form-data'
     }, [
-            { name: 'file', filename: file.fileName, data: RNFetchBlob.wrap(file.origURL) }
+            { name: 'file', filename: fileName, data: dataBase64 }
         ]);
 }
 
