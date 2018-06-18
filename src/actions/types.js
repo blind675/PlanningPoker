@@ -21,3 +21,7 @@ export const PROJECTS_GET_FAIL = 'get_projects_fail';
 export const PROJECTS_GET_SUCESS = 'get_projects_success';
 export const PROJECTS_CREATE_SUCESS = 'create_projects_success';
 export const PROJECTS_CREATE_FAIL = 'create_projects_fail';
+
+// fail
+export const UPLOADE_PICTURE_SUCESS = 'picture_update_success';
+export const UPLOADE_PICTURE_FAIL = 'picture_update_fail';

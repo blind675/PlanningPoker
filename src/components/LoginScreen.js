@@ -65,8 +65,8 @@ const styles = {
         fontSize: 11,
     },
     button: {
-        marginBottom: 30,
-        marginTop: 60,
+        marginBottom: 20,
+        marginTop: 40,
         height: 42,
         width: 180,
         backgroundColor: '#A00037',
