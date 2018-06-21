@@ -17,16 +17,21 @@ class SelectProjectScreen extends Component {
 
     componentWillMount() {
         console.log(' - SelectProjectScreen - componentWillMount - ');
+        this.props.getProjects();
+    }
+
+    componentWillReceiveProps(nextProps) {
+       console.log(' - SelectProjectScreen - componentWillReceiveProps - nextProps: ', nextProps.projects);
     }
 
     keyExtractor(item) {
         return item.uid;
     }
 
+    // TODO: change this to render cells from firebase
     renderListItem({ item }) {
         if (item.addCell) {
             return (
-                // TODO: change this
                 <TouchableOpacity onPress={() => { Actions.createProjectScreen(); }}>
                     <Card style={styles.addCardStyle}>
                         <Image
@@ -144,6 +149,7 @@ const mapStateToProps = state => {
     return {
         user: state.user,
         workOffline: state.workOffline,
+        projects: state.projects,
     };
 };
 

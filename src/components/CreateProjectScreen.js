@@ -4,8 +4,12 @@ import { TextField } from 'react-native-material-textfield';
 import ImagePicker from 'react-native-image-picker';
 import RNFetchBlob from 'react-native-fetch-blob';
 import { MaterialIndicator } from 'react-native-indicators';
+import { connect } from 'react-redux';
+import { Actions } from 'react-native-router-flux';
+
 import { Header } from './common/Header';
 import { Card } from './common/Card';
+import * as actions from '../actions';
 
 // Add your Cloudinary name here
 const YOUR_CLOUDINARY_NAME = 'dtadxpoxx';
@@ -18,12 +22,52 @@ class CreateProjectScreen extends Component {
         super(props);
         this.state = {
             pictureUrl: null,
-            uploadingImg: false
+            uploadingImg: false,
+            projectNameError: null,
+            descriptionsError: null,
+            participantsError: null,
         };
 
         this.upload = this.upload.bind(this);
+        this.projectNameRef = this.updateRef.bind(this, 'projectName');
+        this.descriptionRef = this.updateRef.bind(this, 'description');
+        this.participantsRef = this.updateRef.bind(this, 'participants');
     }
 
+    // componentWillReceiveProps(nextProps) {
+    //     if (nextProps.project) {
+    //     }
+    // }
+
+    onParticipantsChange(text) {
+        let newText = text.replace(' ', ';');
+        newText = newText.replace(',', ';');
+
+        this.setState({
+            participantsError: null,
+            participants: newText
+        });
+    }
+
+    onDescriptionsChange(text) {
+        this.setState({
+            descriptionsError: null
+        });
+        this.state.description = text;
+    }
+
+    onProjectNameChange(text) {
+        this.setState({
+            projectNameError: null,
+        });
+        this.state.projectName = text;
+    }
+
+    updateRef(name, ref) {
+        this[name] = ref;
+    }
+
+    // TODO: move this to redux at some point
     upload() {
         // https://tarcode.github.io/blog/react-native-image-uploading/
 
@@ -60,7 +104,6 @@ class CreateProjectScreen extends Component {
                 });
             } else {
                 //.. show loading animation or something
-
                 console.log('the pick image response:', response);
 
                 const cropData = {
@@ -117,7 +160,7 @@ class CreateProjectScreen extends Component {
                                 style={{
                                     width: 170,
                                     height: 100,
-                                    marginTop: 20, 
+                                    marginTop: 20,
                                     alignItems: 'center',
                                     justifyContent: 'center',
                                 }}
@@ -151,30 +194,51 @@ class CreateProjectScreen extends Component {
                     }
                     <View style={{ width: 240 }} >
                         <TextField
+                            ref={this.projectNameRef}
                             label='Project Name'
                             value={projectName}
-                            onChangeText={(newProjectName) => this.setState({ projectName: newProjectName })}
+                            onChangeText={this.onProjectNameChange.bind(this)}
+                            error={this.state.projectNameError}
                         />
                     </View>
                     <View style={{ width: 240 }} >
                         <TextField
+                            ref={this.descriptionRef}
                             label='Description'
                             value={description}
-                            onChangeText={(newDescription) => this.setState({ description: newDescription })}
+                            onChangeText={this.onDescriptionsChange.bind(this)}
+                            error={this.state.descriptionsError}
                         />
                     </View>
                     <View style={{ width: 240 }} >
                         <TextField
+                            ref={this.participantsRef}
                             label='Participants'
                             value={participants}
-                            onChangeText={(newParticipants) => this.setState({ participants: newParticipants })}
+                            autoCorrect={false}
+                            onChangeText={this.onParticipantsChange.bind(this)}
+                            autoCapitalize={'none'}
+                            error={this.state.participantsError}
                         />
                     </View>
                     <TouchableOpacity
                         style={styles.button}
                         onPress={() => {
-                            // this.props.loginCreateAccount(email);
-                            // Actions.popAndPush('createSelectProject'); 
+                            if (!projectName) {
+                                this.setState({ projectNameError: 'No Project Name Provided' });
+                            } else if (!description) {
+                                this.setState({ descriptionsError: 'No Project Description Provided' });
+                            } else if (!participants) {
+                                this.setState({ participantsError: 'No Project Participants Provided' });
+                            } else {
+                                this.setState({
+                                    projectNameError: null,
+                                    descriptionsError: null,
+                                    participantsError: null,
+                                });
+                                this.props.createProject(pictureUrl, projectName, description, participants);
+                                Actions.mainScreen();
+                            }
                         }}
                     >
                         <Text style={styles.buttonTitle}> Create </Text>
@@ -216,4 +280,10 @@ const styles = {
     }
 };
 
-export default CreateProjectScreen;
+const mapStateToProps = state => {
+    return {
+        project: state.project,
+    };
+};
+
+export default connect(mapStateToProps, actions)(CreateProjectScreen);

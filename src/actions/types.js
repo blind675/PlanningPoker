@@ -1,6 +1,7 @@
 // store keys
 export const STORE_PROFILE_KEY = '@profile:key';
 export const STORE_WORK_OFFLINE_KEY = '@workOffline:key';
+export const STORE_PROJECT_KEY = '@project:key';
 
 // selection
 export const VALUE_SELECTED_SUCCESS = 'select_value_success';
@@ -19,8 +20,10 @@ export const WORK_OFFLINE_SUCCESS = 'user_work_offline_success';
 // projects
 export const PROJECTS_GET_FAIL = 'get_projects_fail';
 export const PROJECTS_GET_SUCESS = 'get_projects_success';
-export const PROJECTS_CREATE_SUCESS = 'create_projects_success';
-export const PROJECTS_CREATE_FAIL = 'create_projects_fail';
+export const PROJECT_LOAD_FAIL = 'load_project_fail';
+export const PROJECT_LOAD_SUCESS = 'load_project_success';
+export const PROJECT_CREATE_SUCESS = 'create_project_success';
+export const PROJECT_CREATE_FAIL = 'create_project_fail';
 
 // fail
 export const UPLOADE_PICTURE_SUCESS = 'picture_update_success';

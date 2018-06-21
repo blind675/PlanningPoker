@@ -28,7 +28,7 @@ const DrawerIcon = () => {
 const RouterComponent = () => {
     return (
         <Router>
-            <Stack key="root" hideNavBar>
+            <Stack key="rootStack" hideNavBar>
                 {/* <Scene key="main" component={MainScreen} initial /> */}
                 <Drawer
                     hideNavBar
@@ -54,9 +54,8 @@ const RouterComponent = () => {
                     component={LoginScreen}
                 />
                 <Stack
-                    key="root"
+                    key="projectStack"
                     hideNavBar
-                    key="createSelectProject"
                 >
                     <Scene
                         hideNavBar

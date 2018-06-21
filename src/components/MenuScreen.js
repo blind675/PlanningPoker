@@ -53,7 +53,7 @@ class MenuScreen extends Component {
                         title='Select Project'
                         onPress={() => {
                             Actions.drawerClose();
-                            Actions.createSelectProject();
+                            Actions.projectStack();
                         }}
                         enabled={this.state.selectProjectEnabled}
                     />
