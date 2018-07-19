@@ -26,7 +26,9 @@ export const getProjects = () => {
                 if (user && user.projects && user.projects.length > 0 && projects) {
                     const myProjects = [];
                     for (const projectId of user.projects) {
-                        myProjects.push(projects[projectId]);
+                        if (projects[projectId]) {
+                            myProjects.push(projects[projectId]);
+                        }
                     }
                     dispatch({
                         payload: myProjects,

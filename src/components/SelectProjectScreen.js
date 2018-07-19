@@ -2,33 +2,46 @@ import React, { Component } from 'react';
 import { View, Text, Image, TouchableOpacity, FlatList } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
+import { MaterialIndicator } from 'react-native-indicators';
 
 import { Header } from './common/Header';
 import { Card } from './common/Card';
 import * as actions from '../actions';
-import { dummyProjects } from '../../resources/externalResources';
 
 class SelectProjectScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            loading: false,
+            myProjects: []
         };
     }
 
     componentWillMount() {
-        console.log(' - SelectProjectScreen - componentWillMount - ');
         this.props.getProjects();
+        this.setState({ loading: true });
     }
 
     componentWillReceiveProps(nextProps) {
-       console.log(' - SelectProjectScreen - componentWillReceiveProps - nextProps: ', nextProps.projects);
+        console.log(' - SelectProjectScreen - componentWillReceiveProps - nextProps: ', nextProps.projects);
+
+        if (!nextProps.projects.find(prop => prop.uid === 'add')) {
+            nextProps.projects.push({
+                uid: 'add',
+                addCell: true
+            });
+        }
+
+        this.setState({
+            loading: false,
+            myProjects: nextProps.projects
+        });
     }
 
     keyExtractor(item) {
         return item.uid;
     }
 
-    // TODO: change this to render cells from firebase
     renderListItem({ item }) {
         if (item.addCell) {
             return (
@@ -53,9 +66,10 @@ class SelectProjectScreen extends Component {
             );
         }
         return (
+            //TODO: make Touchable
             <Card style={styles.cardStyle}>
                 <Image
-                    source={{ uri: item.pictureURL }}
+                    source={{ uri: item.pictureUrl }}
                     style={{
                         width: 85,
                         height: 120,
@@ -107,19 +121,34 @@ class SelectProjectScreen extends Component {
     }
 
     render() {
+        const { loading, myProjects } = this.state;
+
         return (
             <View style={{ flex: 1 }}>
                 <Header back title={'Select Project'} />
-                <FlatList
-                    data={dummyProjects}
-                    renderItem={this.renderListItem.bind(this)}
-                    keyExtractor={this.keyExtractor.bind(this)}
-                    showsVerticalScrollIndicator={false}
-                    style={{
-                        flex: 1,
-                        marginVertical: 6,
-                    }}
-                />
+                {
+                    loading ?
+                        <View
+                            style={{
+                                flex: 1,
+                                justifyContent: 'center',
+                                alignItems: 'center'
+                            }}
+                        >
+                            <MaterialIndicator color="#A00037" />
+                        </View>
+                        :
+                        <FlatList
+                            data={myProjects}
+                            renderItem={this.renderListItem.bind(this)}
+                            keyExtractor={this.keyExtractor.bind(this)}
+                            showsVerticalScrollIndicator={false}
+                            style={{
+                                flex: 1,
+                                marginVertical: 6,
+                            }}
+                        />
+                }
             </View>
         );
     }

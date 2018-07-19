@@ -170,14 +170,14 @@ class CreateProjectScreen extends Component {
                             :
                             <TouchableOpacity onPress={this.upload}>
                                 {
-                                    // TODO: add transparency
                                     pictureUrl ?
                                         <Image
                                             source={{ uri: pictureUrl }}
                                             style={{
                                                 width: 170,
                                                 height: 100,
-                                                marginTop: 20
+                                                marginTop: 20,
+                                                opacity: 0.5
                                             }}
                                         />
                                         :
@@ -186,7 +186,8 @@ class CreateProjectScreen extends Component {
                                             style={{
                                                 width: 170,
                                                 height: 100,
-                                                marginTop: 20
+                                                marginTop: 20,
+                                                opacity: 0.5
                                             }}
                                         />
                                 }
