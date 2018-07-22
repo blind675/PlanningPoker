@@ -17,6 +17,7 @@ const YOUR_CLOUDINARY_NAME = 'dtadxpoxx';
 // If you dont't hacve a preset id, head over to cloudinary and create a preset, and add the id below
 const YOUR_CLOUDINARY_PRESET = 'f3bxcgod';
 
+// TODO: update the ui so that the participants have profiles
 class CreateProjectScreen extends Component {
     constructor(props) {
         super(props);

@@ -5,9 +5,12 @@ import { connect } from 'react-redux';
 
 import { Header } from './common/Header';
 import { PlayingCard } from './common/PlayingCard';
+import { UserInfoCell } from './common/UserInfoCell';
+
+import { dummyProjectUsers } from '../../resources/externalResources';
 import * as actions from '../actions';
 
-const dummyData = [
+const cardsData = [
     { id: 1, text: '0' },
     { id: 2, text: '1' },
     { id: 3, text: '2' },
@@ -20,18 +23,72 @@ const dummyData = [
     { id: 10, text: 'C' }];
 
 class MainScreen extends Component {
-    componentWillMount() {
-        this.props.loadProfile();
-        this.props.loadWorkOfline();
+    constructor(props) {
+        super(props);
+        this.state = {
+            workOffline: true,
+            projectUsers: dummyProjectUsers
+        };
     }
-    
+
+    componentWillMount() {
+        // TODO: create loading screen and move this to loading
+        this.props.loadProfile();
+        this.props.loadWorkOffline();
+    }
+
+    componentWillReceiveProps(nextProps) {
+        console.log(' - MainScreen - componentWillReceiveProps - nextProps: ', nextProps.workOffline);
+
+        this.setState({
+            workOffline: nextProps.workOffline,
+            // myProjects: nextProps.projects
+        });
+    }
+
+    renderTopBar() {
+        if (this.state.workOffline) {
+            return this.renderTeamViewComponent();
+        }
+        return (<View />);
+    }
+ 
+    renderTeamViewComponent() {
+        const { projectUsers } = this.state;
+        return (<View
+            style={{
+                backgroundColor: '#6EC6FF',
+                height: 67,
+                shadowColor: '#000000',
+                shadowOpacity: 0.3,
+                shadowRadius: 1,
+                shadowOffset: {
+                    height: 1,
+                    width: 0
+                },
+            }}
+        >
+            <FlatList
+                horizontal
+                data={projectUsers}
+                renderItem={({ item }) => {
+                    return (
+                        <UserInfoCell userInfo={item} />
+                    );
+                }}
+                keyExtractor={(item) => { return item.id; }}
+                showsHorizontalScrollIndicator={false}
+            />
+        </View>);
+    }
+
     render() {
         return (
             <View style={{ flex: 1 }}>
                 <Header />
-                {/* <PlayingCard value={21} /> */}
+                {this.renderTopBar()}
                 <FlatList
-                    data={dummyData}
+                    data={cardsData}
                     renderItem={({ item }) => {
                         return (
                             <TouchableHighlight
@@ -60,4 +117,11 @@ class MainScreen extends Component {
     }
 }
 
-export default connect(null, actions)(MainScreen);
+const mapStateToProps = state => {
+    return {
+        workOffline: state.workOffline,
+        selectedProject: state.selectedProject,
+    };
+};
+
+export default connect(mapStateToProps, actions)(MainScreen);

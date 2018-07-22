@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, Switch } from 'react-native';
+import { Text, View, Switch, Alert } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import _ from 'lodash';
@@ -17,11 +17,22 @@ class MenuScreen extends Component {
 
     componentWillReceiveProps(nextProps) {
         // console.log('got new props in MenuScreen: ', nextProps);
-        if (nextProps.workOffline === true) {
-            this.setState({ selectProjectEnabled: true });
-        } else {
+        if (_.isEmpty(nextProps.user)) {
             this.setState({ selectProjectEnabled: false });
+        } else {
+            this.setState({ selectProjectEnabled: true });
         }
+    }
+
+    showMustLoginAlert() {
+        return (
+            Alert.alert(
+                'Sorry..',
+                'You must login to access this functionality.',
+                [{ text: 'OK', onPress: () => console.log('OK Pressed') }],
+                { cancelable: true }
+            )
+        );
     }
 
     render() {
@@ -52,8 +63,13 @@ class MenuScreen extends Component {
                     <MenuCell
                         title='Select Project'
                         onPress={() => {
-                            Actions.drawerClose();
-                            Actions.projectStack();
+                            if (!_.isEmpty(this.props.user)) {
+                                Actions.drawerClose();
+                                Actions.projectStack();
+                            } else {
+                                // show a popup with you must login
+                                this.showMustLoginAlert();
+                            }
                         }}
                         enabled={this.state.selectProjectEnabled}
                     />
@@ -63,7 +79,8 @@ class MenuScreen extends Component {
                             if (!_.isEmpty(this.props.user)) {
                                 this.props.updateWorkOffline(!this.props.workOffline);
                             } else {
-                                // TODO: show a popup with you must login
+                                // show a popup with you must login
+                                this.showMustLoginAlert();
                             }
                         }}
                     >
@@ -75,7 +92,8 @@ class MenuScreen extends Component {
                                     if (!_.isEmpty(this.props.user)) {
                                         this.props.updateWorkOffline(value);
                                     } else {
-                                        // TODO: show a popup with you must login
+                                        // show a popup with you must login
+                                        this.showMustLoginAlert();
                                     }
                                 }
                             }

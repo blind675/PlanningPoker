@@ -176,8 +176,6 @@ const styles = {
 
 const mapStateToProps = state => {
     return {
-        user: state.user,
-        workOffline: state.workOffline,
         projects: state.projects,
     };
 };

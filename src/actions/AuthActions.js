@@ -59,7 +59,6 @@ const createProfil = (profileId, email, dispatch) => {
     const index = email.indexOf('@');
     const name = email.substring(0, index);
 
-    //TODO: extract company maybe
     const ref = firebase.database().ref(`/profiles/${profileId}`);
     const profileObject = {
         uid: profileId,

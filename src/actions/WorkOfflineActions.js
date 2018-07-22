@@ -6,7 +6,7 @@ import {
     STORE_WORK_OFFLINE_KEY,
 } from '../actions/types';
 
-export const loadWorkOfline = () => {
+export const loadWorkOffline = () => {
     return (dispatch) => {
         // loade profile from phone
         store.get(STORE_WORK_OFFLINE_KEY)

@@ -49,7 +49,6 @@ export const getProjects = () => {
     };
 };
 
-// TODO: call this at loading time
 export const loadProject = () => {
     return (dispatch) => {
         // loade project from phone
@@ -125,7 +124,6 @@ export const createProject = (pictureUrl, name, description, participants) => {
     };
 };
 
-// TODO: move this to utility service
 const saveProject = (project) => {
     // save project to phone
     store.save(STORE_PROJECT_KEY, project);

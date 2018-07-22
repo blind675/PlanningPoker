@@ -126,7 +126,7 @@ const styles = {
             height: 1,
             width: 0
         },
-        marginBottom: 3,
+        marginBottom: 0,
     },
     titleHeadder: {
         color: '#fafafa',
