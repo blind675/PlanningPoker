@@ -58,11 +58,13 @@ const createProfil = (profileId, email, dispatch) => {
     //extract name from email
     const index = email.indexOf('@');
     const name = email.substring(0, index);
+    const nameShort = name.substring(0, 1).charAt(0).toUpperCase();
 
     const ref = firebase.database().ref(`/profiles/${profileId}`);
     const profileObject = {
         uid: profileId,
         name,
+        nameShort,
         email,
     };
 

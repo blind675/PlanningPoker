@@ -1,16 +1,16 @@
 import {
-    PROJECT_UPDATED_SUCCESS,
-    PROJECT_UPDATED_FAIL,
+    WRONG_USERS_FOUND,
+    WRONG_USERS_NOT_FOUND,
 } from '../actions/types';
 
-const INITIAL_STATE = null;
+const INITIAL_STATE = [];
 
 export default (state = INITIAL_STATE, action) => {
     switch (action.type) {
-        case PROJECT_UPDATED_SUCCESS:
+        case WRONG_USERS_FOUND:
             return action.payload;
-        case PROJECT_UPDATED_FAIL:
-            return null;
+        case WRONG_USERS_NOT_FOUND:
+            return [];
         default:
             return state;
     }

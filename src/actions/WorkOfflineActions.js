@@ -39,7 +39,7 @@ export const updateWorkOffline = (workOffline) => {
         // save profile to phone
         store.save(STORE_WORK_OFFLINE_KEY, { workOfflineFlag: workOffline })
             .then(() => {
-                console.log('- Work Offline flag saved on phone.');
+                console.log('- Work Offline flag saved on phone. Flag', workOffline);
                 dispatch({
                     payload: workOffline,
                     type: WORK_OFFLINE_SUCCESS,

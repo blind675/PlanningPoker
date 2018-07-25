@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Image, Text, TouchableOpacity, ImageEditor, ImageStore } from 'react-native';
+import { View, Image, Text, Alert, TouchableOpacity, ImageEditor, ImageStore } from 'react-native';
 import { TextField } from 'react-native-material-textfield';
 import ImagePicker from 'react-native-image-picker';
 import RNFetchBlob from 'react-native-fetch-blob';
@@ -7,6 +7,7 @@ import { MaterialIndicator } from 'react-native-indicators';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 
+import { Util } from '../Utility';
 import { Header } from './common/Header';
 import { Card } from './common/Card';
 import * as actions from '../actions';
@@ -17,7 +18,6 @@ const YOUR_CLOUDINARY_NAME = 'dtadxpoxx';
 // If you dont't hacve a preset id, head over to cloudinary and create a preset, and add the id below
 const YOUR_CLOUDINARY_PRESET = 'f3bxcgod';
 
-// TODO: update the ui so that the participants have profiles
 class CreateProjectScreen extends Component {
     constructor(props) {
         super(props);
@@ -27,6 +27,7 @@ class CreateProjectScreen extends Component {
             projectNameError: null,
             descriptionsError: null,
             participantsError: null,
+            loading: false
         };
 
         this.upload = this.upload.bind(this);
@@ -35,10 +36,38 @@ class CreateProjectScreen extends Component {
         this.participantsRef = this.updateRef.bind(this, 'participants');
     }
 
-    // componentWillReceiveProps(nextProps) {
-    //     if (nextProps.project) {
-    //     }
-    // }
+    componentWillReceiveProps(nextProps) {
+        console.log(' - CreateProjectScreen -- Got new props:', nextProps);
+
+        if (nextProps.wrongUsers.length > 0) {
+            console.log('Found unknown users. Show alert dialog.');
+
+            this.setState({
+                loading: false
+            });
+
+            Alert.alert(
+                'Oups..',
+                `This users are not using Planning Poker App: ${nextProps.wrongUsers.toString()}`,
+                [{ text: 'OK', onPress: () => console.log('OK Pressed') }],
+                { cancelable: true }
+            );
+        } else if (nextProps.projectCreated) {
+            console.log('Project created sucessfuly.');
+            // select this project
+            this.props.selectProject(nextProps.projectCreated);
+
+            // this is not working
+            const value = false;
+            this.props.updateWorkOffline(value);
+
+            this.setState({
+                loading: false
+            });
+
+            Actions.mainScreen();
+        }
+    }
 
     onParticipantsChange(text) {
         let newText = text.replace(' ', ';');
@@ -62,6 +91,19 @@ class CreateProjectScreen extends Component {
             projectNameError: null,
         });
         this.state.projectName = text;
+    }
+
+    validateParticipant() {
+        let correctEmailsFormat = true;
+        const participants = this.state.participants.split(';');
+
+        participants.forEach((participant) => {
+            if (Util.validateEmail(participant) === false) {
+                correctEmailsFormat = false;
+            }
+        });
+
+        return correctEmailsFormat;
     }
 
     updateRef(name, ref) {
@@ -148,6 +190,47 @@ class CreateProjectScreen extends Component {
         });
     }
 
+    renderCreateButton() {
+        const { projectName, description, participants, pictureUrl, loading } = this.state;
+
+        if (loading) {
+            return (
+                <View style={styles.activityIndicator}>
+                    <MaterialIndicator color="#A00037" />
+                </View>);
+        }
+
+        return (
+            <TouchableOpacity
+                style={styles.button}
+                onPress={() => {
+                    if (!projectName) {
+                        this.setState({ projectNameError: 'No Project Name Provided' });
+                    } else if (!description) {
+                        this.setState({ descriptionsError: 'No Project Description Provided' });
+                    } else if (!participants) {
+                        this.setState({ participantsError: 'No Project Participants Provided' });
+                    } else if (this.validateParticipant() === false) {
+                        this.setState({ participantsError: 'Wrong Participants Email Format' });
+                    } else {
+                        this.setState({
+                            projectNameError: null,
+                            descriptionsError: null,
+                            participantsError: null,
+                        });
+                        // show loading screen
+                        this.setState({
+                            loading: true
+                        });
+                        this.props.createProject(pictureUrl, projectName, description, participants);
+                    }
+                }}
+            >
+                <Text style={styles.buttonTitle}> Create </Text>
+            </TouchableOpacity>
+        );
+    }
+
     render() {
         const { projectName, description, participants, pictureUrl, uploadingImg } = this.state;
 
@@ -219,32 +302,16 @@ class CreateProjectScreen extends Component {
                             value={participants}
                             autoCorrect={false}
                             onChangeText={this.onParticipantsChange.bind(this)}
+                            onBlur={() => {
+                                if (participants && this.validateParticipant() === false) {
+                                    this.setState({ participantsError: 'Wrong Participants Email Format' });
+                                }
+                            }}
                             autoCapitalize={'none'}
                             error={this.state.participantsError}
                         />
                     </View>
-                    <TouchableOpacity
-                        style={styles.button}
-                        onPress={() => {
-                            if (!projectName) {
-                                this.setState({ projectNameError: 'No Project Name Provided' });
-                            } else if (!description) {
-                                this.setState({ descriptionsError: 'No Project Description Provided' });
-                            } else if (!participants) {
-                                this.setState({ participantsError: 'No Project Participants Provided' });
-                            } else {
-                                this.setState({
-                                    projectNameError: null,
-                                    descriptionsError: null,
-                                    participantsError: null,
-                                });
-                                this.props.createProject(pictureUrl, projectName, description, participants);
-                                Actions.mainScreen();
-                            }
-                        }}
-                    >
-                        <Text style={styles.buttonTitle}> Create </Text>
-                    </TouchableOpacity>
+                    {this.renderCreateButton()}
                 </Card>
             </View>
         );
@@ -276,6 +343,14 @@ const styles = {
         justifyContent: 'center',
         alignItems: 'center',
     },
+    activityIndicator: {
+        marginBottom: 20,
+        marginTop: 40,
+        height: 42,
+        width: 180,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
     buttonTitle: {
         color: '#FAFAFA',
         fontSize: 20
@@ -284,7 +359,10 @@ const styles = {
 
 const mapStateToProps = state => {
     return {
-        project: state.project,
+        projectCreated: state.projectCreated,
+        wrongUsers: state.wrongUsers,
+        unselectProject: state.unselectProject,
+        selectedProject: state.selectedProject,
     };
 };
 

@@ -26,28 +26,20 @@ class MainScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            workOffline: true,
             projectUsers: dummyProjectUsers
         };
     }
 
-    componentWillMount() {
-        // TODO: create loading screen and move this to loading
-        this.props.loadProfile();
-        this.props.loadWorkOffline();
-    }
+    // componentWillMount() {
+    //     console.log(' -- MainScreen - componentWillMount ');
+    // }
 
-    componentWillReceiveProps(nextProps) {
-        console.log(' - MainScreen - componentWillReceiveProps - nextProps: ', nextProps.workOffline);
-
-        this.setState({
-            workOffline: nextProps.workOffline,
-            // myProjects: nextProps.projects
-        });
-    }
+    // componentWillReceiveProps(nextProps) {
+    //     console.log(' - MainScreen - componentWillReceiveProps - nextProps: ', nextProps.workOffline);
+    // }
 
     renderTopBar() {
-        if (this.state.workOffline) {
+        if (this.props.workOffline === false) {
             return this.renderTeamViewComponent();
         }
         return (<View />);

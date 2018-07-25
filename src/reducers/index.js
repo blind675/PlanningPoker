@@ -5,13 +5,14 @@ import WorkOfflineReducer from './WorkOfflineReducer';
 import CreateProjectReducer from './CreateProjectReducer';
 import GetProjectsReducer from './GetProjectsReducer';
 import SelectedProjectReducer from './SelectedProjectReducer';
+import WrongUsersReducer from './WrongUsersReducer';
 
 export default combineReducers({
     selectedValue: SelectionReducer,
     user: AuthReducer,
     workOffline: WorkOfflineReducer, 
-    project: CreateProjectReducer,
+    projectCreated: CreateProjectReducer,
     projects: GetProjectsReducer,
-    // TODO: create action for this
+    wrongUsers: WrongUsersReducer,
     selectedProject: SelectedProjectReducer,
 });

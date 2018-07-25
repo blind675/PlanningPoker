@@ -4,7 +4,8 @@ import {
     Router,
     Scene,
     Stack,
-    Drawer
+    Drawer,
+    ActionConst
 } from 'react-native-router-flux';
 
 import MainScreen from './components/MainScreen';
@@ -13,6 +14,7 @@ import MainSelectedScreen from './components/MainSelectedScreen';
 import LoginScreen from './components/LoginScreen';
 import SelectProjectScreen from './components/SelectProjectScreen';
 import CreateProjectScreen from './components/CreateProjectScreen';
+import SplashScreen from './components/SplashScreen';
 
 const DrawerIcon = () => {
     return (<Image
@@ -29,46 +31,51 @@ const RouterComponent = () => {
     return (
         <Router>
             <Stack key="rootStack" hideNavBar>
-                {/* <Scene key="main" component={MainScreen} initial /> */}
-                <Drawer
-                    hideNavBar
-                    key="mainDrawer"
-                    contentComponent={MenuScreen}
-                    type='reset'
-                    drawerIcon={DrawerIcon}
-                //navBar={NavBar} 
-                >
-                    <Scene
-                        hideNavBar
-                        key="mainScreen"
-                        component={MainScreen}
-                    />
-                    <Scene
-                        hideNavBar
-                        key="mainSelectedScreen"
-                        component={MainSelectedScreen}
-                    />
-                </Drawer>
                 <Scene
-                    key="loginScreen"
-                    component={LoginScreen}
-                />
-                <Stack
-                    key="projectStack"
                     hideNavBar
-                >
-                    <Scene
+                    key="splashScreen"
+                    component={SplashScreen}
+                    initial
+                />
+                <Stack key="mainStack" hideNavBar>
+                    <Drawer
                         hideNavBar
-                        key="selectProjectScreen"
-                        component={SelectProjectScreen}
-                    />
+                        key="mainDrawer"
+                        contentComponent={MenuScreen}
+                        type='reset'
+                        drawerIcon={DrawerIcon}
+                    >
+                        <Scene
+                            hideNavBar
+                            key="mainScreen"
+                            component={MainScreen}
+                        />
+                        <Scene
+                            hideNavBar
+                            key="mainSelectedScreen"
+                            component={MainSelectedScreen}
+                        />
+                    </Drawer>
                     <Scene
-                        hideNavBar
-                        key="createProjectScreen"
-                        component={CreateProjectScreen}
+                        key="loginScreen"
+                        component={LoginScreen}
                     />
+                    <Stack
+                        key="projectStack"
+                        hideNavBar
+                    >
+                        <Scene
+                            hideNavBar
+                            key="selectProjectScreen"
+                            component={SelectProjectScreen}
+                        />
+                        <Scene
+                            hideNavBar
+                            key="createProjectScreen"
+                            component={CreateProjectScreen}
+                        />
+                    </Stack>
                 </Stack>
-
             </Stack>
         </Router>
     );
