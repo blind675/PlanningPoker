@@ -4,8 +4,7 @@ import {
     Router,
     Scene,
     Stack,
-    Drawer,
-    ActionConst
+    Drawer
 } from 'react-native-router-flux';
 
 import MainScreen from './components/MainScreen';

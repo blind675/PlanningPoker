@@ -38,6 +38,14 @@ class SelectProjectScreen extends Component {
         });
     }
 
+    getUsersNames(item) {
+        let usersString = '';
+        item.participants.forEach((participant) => {
+            usersString += `${participant.name}, `;
+        });
+        return usersString;
+    }
+
     keyExtractor(item) {
         return item.uid;
     }
@@ -66,57 +74,74 @@ class SelectProjectScreen extends Component {
             );
         }
         return (
-            //TODO: make Touchable
-            <Card style={styles.cardStyle}>
-                <Image
-                    source={{ uri: item.pictureUrl }}
-                    style={{
-                        width: 85,
-                        height: 120,
-                        backgroundColor: '#C8C8C8',
-                        opacity: 0.5
-                    }}
-                />
-                <View
-                    style={{
-                        flex: 1,
-                        marginHorizontal: 24,
-                        marginVertical: 12
-                    }}
-                >
-                    <Text
+
+            <TouchableOpacity
+                onPress={() => {
+                    // select this project
+                    this.props.selectProject(item.uid);
+
+                    // this is not working
+                    const value = false;
+                    this.props.updateWorkOffline(value);
+
+                    this.setState({
+                        loading: false
+                    });
+
+                    Actions.mainScreen();
+                }}
+            >
+                <Card style={styles.cardStyle}>
+                    <Image
+                        source={{ uri: item.pictureUrl }}
                         style={{
-                            marginBottom: 8,
-                            color: '#212121',
-                            fontSize: 20,
+                            width: 85,
+                            height: 120,
+                            backgroundColor: '#C8C8C8',
+                            opacity: 0.5
                         }}
-                    >{item.name}</Text>
+                    />
                     <View
                         style={{
-                            marginBottom: 8,
                             flex: 1,
+                            marginHorizontal: 24,
+                            marginVertical: 12
                         }}
                     >
+                        <Text
+                            style={{
+                                marginBottom: 8,
+                                color: '#212121',
+                                fontSize: 20,
+                            }}
+                        >{item.name}</Text>
+                        <View
+                            style={{
+                                marginBottom: 8,
+                                flex: 1,
+                            }}
+                        >
+                            <Text
+                                ellipsizeMode={'tail'}
+                                numberOfLines={1}
+                                style={{
+                                    color: '#212121',
+                                    fontSize: 11,
+                                    opacity: 0.6
+                                }}
+                            >{item.description}</Text>
+                        </View>
                         <Text
                             ellipsizeMode={'tail'}
                             numberOfLines={3}
                             style={{
-                                color: '#212121',
-                                fontSize: 11,
-                                opacity: 0.6
+                                color: '#606060',
+                                fontSize: 13,
                             }}
-                        >{item.description}</Text>
+                        >{this.getUsersNames(item)}</Text>
                     </View>
-                    <Text
-                        ellipsizeMode={'tail'}
-                        numberOfLines={1}
-                        style={{
-                            color: '#606060',
-                            fontSize: 13,
-                        }}
-                    >{'catalin.bora, ion.popescu, aurel'}</Text>
-                </View>
-            </Card >
+                </Card >
+            </TouchableOpacity>
         );
     }
 
