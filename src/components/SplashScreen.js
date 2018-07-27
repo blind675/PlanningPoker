@@ -8,6 +8,7 @@ class SplashScreen extends Component {
     componentWillMount() {
         this.props.loadProfile();
         this.props.loadWorkOffline();
+        this.props.loadProject();
         setTimeout(() => { Actions.mainStack(); }, 500);
     }
 

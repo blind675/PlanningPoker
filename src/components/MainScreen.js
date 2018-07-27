@@ -5,10 +5,9 @@ import { connect } from 'react-redux';
 
 import { Header } from './common/Header';
 import { PlayingCard } from './common/PlayingCard';
-import { UserInfoCell } from './common/UserInfoCell';
 
-import { dummyProjectUsers } from '../../resources/externalResources';
 import * as actions from '../actions';
+import { TeamHeadder } from './common/TeamHeadder';
 
 const cardsData = [
     { id: 1, text: '0' },
@@ -23,56 +22,24 @@ const cardsData = [
     { id: 10, text: 'C' }];
 
 class MainScreen extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            projectUsers: dummyProjectUsers
-        };
-    }
-
     // componentWillMount() {
     //     console.log(' -- MainScreen - componentWillMount ');
     // }
 
     // componentWillReceiveProps(nextProps) {
+    //     // TODO: act on all voted
     //     console.log(' - MainScreen - componentWillReceiveProps - nextProps: ', nextProps.workOffline);
     // }
 
     renderTopBar() {
-        if (this.props.workOffline === false) {
-            return this.renderTeamViewComponent();
+        // console.log('selectedProject:', this.props.selectedProject);
+        if (this.props.workOffline === false && this.props.selectedProject) {
+            const { participants } = this.props.selectedProject;
+            return (<TeamHeadder usersList={participants} />);
         }
         return (<View />);
     }
- 
-    renderTeamViewComponent() {
-        const { projectUsers } = this.state;
-        return (<View
-            style={{
-                backgroundColor: '#6EC6FF',
-                height: 67,
-                shadowColor: '#000000',
-                shadowOpacity: 0.3,
-                shadowRadius: 1,
-                shadowOffset: {
-                    height: 1,
-                    width: 0
-                },
-            }}
-        >
-            <FlatList
-                horizontal
-                data={projectUsers}
-                renderItem={({ item }) => {
-                    return (
-                        <UserInfoCell userInfo={item} />
-                    );
-                }}
-                keyExtractor={(item) => { return item.id; }}
-                showsHorizontalScrollIndicator={false}
-            />
-        </View>);
-    }
+
 
     render() {
         return (

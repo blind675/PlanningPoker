@@ -8,24 +8,23 @@ import {
     PROJECT_CREATE_FAIL,
     PROJECTS_GET_SUCESS,
     PROJECTS_GET_FAIL,
-    PROJECT_LOAD_SUCESS,
+    // PROJECT_LOAD_SUCESS,
     PROJECT_LOAD_FAIL,
     PROJECT_SELECT_SUCESS,
     PROJECT_SELECT_FAIL,
     WRONG_USERS_FOUND,
     // WRONG_USERS_NOT_FOUND,
     // UPLOADE_PICTURE_SUCESS,
-    UPLOADE_PICTURE_FAIL,
+    // UPLOADE_PICTURE_FAIL,
 } from './types';
 
 export const getProjects = () => {
     return (dispatch, getState) => {
         const { user } = getState();
 
-        // TODO: get my projects ony by one from firebase
-        // don't ger all projects localy
-        // or is is better for less request??
-
+        // TODO: duplicate project data in unser object 
+        // so no extra request neede 
+        
         // get all projects
         firebase.database().ref('/projects').once('value')
             .then((snapshot) => {
@@ -65,11 +64,9 @@ export const loadProject = () => {
         store.get(STORE_PROJECT_KEY)
             .then((project) => {
                 if (project) {
+                    // if project found select project
                     console.log('- Loaded project - from phone: ', project);
-                    dispatch({
-                        payload: project,
-                        type: PROJECT_LOAD_SUCESS,
-                    });
+                    selectProjectPart(project.uid, dispatch);
                 } else {
                     console.log('- Loaded project - none found.');
                     dispatch({
@@ -240,12 +237,3 @@ const saveProfile = (profile) => {
     store.save(STORE_PROFILE_KEY, profile);
 };
 
-// TODO: upload picture here
-export const uploadPhoto = () => {
-    return (dispatch) => {
-        dispatch({
-            payload: [],
-            type: UPLOADE_PICTURE_FAIL,
-        });
-    };
-};

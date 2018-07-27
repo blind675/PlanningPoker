@@ -3,6 +3,7 @@ import { View, TouchableOpacity, Easing } from 'react-native';
 // import FlipCard from 'react-native-flip-card';
 import FlipView from 'react-native-flip-view';
 import { connect } from 'react-redux';
+import { Actions } from 'react-native-router-flux';
 
 import { Header } from './common/Header';
 import { PlayingCard } from './common/PlayingCard';
@@ -55,6 +56,10 @@ class MainSelectedScreen extends Component {
                         this.setState({
                             flip: newState
                         });
+                    }}
+                    onCancelPress={() => {
+                        this.props.unselectValue();
+                        Actions.pop();
                     }}
                 />
                 <View
