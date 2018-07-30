@@ -56,7 +56,7 @@ class MenuScreen extends Component {
                                 Actions.loginScreen();
                             } else {
                                 Actions.drawerClose();
-                                // Actions.profileScreen();
+                                Actions.reviewScreen();
                             }
                         }}
                     />

@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, Image, TouchableOpacity } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 
+//TODO: remove the select button
 const Header = ({ back, title, leftIcons = false, checkStatus, onCancelPress, onSelectPress }) => {
     function displayLeftButton() {
         if (back) {

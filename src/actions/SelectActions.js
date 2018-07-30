@@ -53,5 +53,7 @@ const updateFirebase = (user, selectedProject, newValue, selected) => {
 
     newSelectedProject.participants = particioantList;
     // call firebase to update the project for current user
-    firebase.database().ref(`/profiles/${selectedProject.uid}`).update(newSelectedProject);
+
+    console.log('new project: ', newSelectedProject);
+    firebase.database().ref(`/projects/${selectedProject.uid}`).update(newSelectedProject);
 };

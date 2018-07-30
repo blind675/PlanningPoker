@@ -14,6 +14,7 @@ import LoginScreen from './components/LoginScreen';
 import SelectProjectScreen from './components/SelectProjectScreen';
 import CreateProjectScreen from './components/CreateProjectScreen';
 import SplashScreen from './components/SplashScreen';
+import ReviewPageScreen from './components/ReviewPageScreen';
 
 const DrawerIcon = () => {
     return (<Image
@@ -53,6 +54,11 @@ const RouterComponent = () => {
                             hideNavBar
                             key="mainSelectedScreen"
                             component={MainSelectedScreen}
+                        />
+                        <Scene
+                            hideNavBar
+                            key="reviewScreen"
+                            component={ReviewPageScreen}
                         />
                     </Drawer>
                     <Scene

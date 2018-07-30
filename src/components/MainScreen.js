@@ -3,23 +3,23 @@ import { View, FlatList, TouchableHighlight } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 
+import * as actions from '../actions';
+
 import { Header } from './common/Header';
 import { PlayingCard } from './common/PlayingCard';
-
-import * as actions from '../actions';
 import { TeamHeadder } from './common/TeamHeadder';
 
 const cardsData = [
-    { id: 1, text: '0' },
-    { id: 2, text: '1' },
-    { id: 3, text: '2' },
-    { id: 4, text: '3' },
+    { id: 0, text: '0' },
+    { id: 1, text: '1' },
+    { id: 2, text: '2' },
+    { id: 3, text: '3' },
     { id: 5, text: '5' },
-    { id: 6, text: '8' },
-    { id: 7, text: '13' },
-    { id: 8, text: '21' },
-    { id: 9, text: 'I' },
-    { id: 10, text: 'C' }];
+    { id: 8, text: '8' },
+    { id: 13, text: '13' },
+    { id: 21, text: '21' },
+    { id: 50, text: '?' },
+    { id: 100, text: 'C' }];
 
 class MainScreen extends Component {
     // componentWillMount() {
@@ -39,7 +39,6 @@ class MainScreen extends Component {
         }
         return (<View />);
     }
-
 
     render() {
         return (
