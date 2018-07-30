@@ -2,8 +2,7 @@ import React from 'react';
 import { View, Text, Image, TouchableOpacity } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 
-//TODO: remove the select button
-const Header = ({ back, title, leftIcons = false, checkStatus, onCancelPress, onSelectPress }) => {
+const Header = ({ back, title, leftIcons = false, onCancelPress }) => {
     function displayLeftButton() {
         if (back) {
             return (
@@ -46,20 +45,6 @@ const Header = ({ back, title, leftIcons = false, checkStatus, onCancelPress, on
                     }}
                 >
                     <TouchableOpacity
-                        style={{ marginHorizontal: 5 }}
-                        onPress={onSelectPress}
-                    >
-                        <Image
-                            style={{
-                                width: 32,
-                                height: 25,
-                                marginVertical: 2
-                            }}
-                            source={checkStatusIcon()}
-                        />
-                    </TouchableOpacity>
-
-                    <TouchableOpacity
                         style={{
                             marginHorizontal: 1,
                             marginLeft: 5,
@@ -83,18 +68,13 @@ const Header = ({ back, title, leftIcons = false, checkStatus, onCancelPress, on
                 </View>
             );
         }
-        return (<View />);
+        return (<View
+            style={{
+                width: 46,
+                height: 30,
+            }}
+        />);
     }
-
-    function checkStatusIcon() {
-        if (checkStatus) {
-            return require('../../../resources/check/checkSelected.png');
-        }
-
-        return require('../../../resources/check/checkUnselected.png');
-    }
-
-    // console.log(' - rendering Headder - checkStatus: ', checkStatus);
 
     return (
         <View>

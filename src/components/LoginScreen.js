@@ -27,6 +27,7 @@ class LoginScreen extends Component {
                     <View style={styles.emailTextInput}>
                         <TextField
                             label='Email'
+                            autoCapitalize='none'
                             value={email}
                             onChangeText={(newEmail) => this.setState({ email: newEmail })}
                         />
@@ -36,9 +37,9 @@ class LoginScreen extends Component {
                     </View>
                     <TouchableOpacity
                         style={styles.button}
-                        onPress={() => { 
+                        onPress={() => {
                             this.props.loginCreateAccount(email);
-                            Actions.popAndPush('createSelectProject'); 
+                            Actions.popAndPush('createSelectProject');
                         }}
                     >
                         <Text style={styles.buttonTitle}> Login </Text>

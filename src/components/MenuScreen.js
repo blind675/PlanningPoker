@@ -7,6 +7,10 @@ import _ from 'lodash';
 import { MenuCell } from './common/MenuCell';
 import * as actions from '../actions';
 
+// TODO: create profile screen
+// TODO: create settings screen
+// TODO: create donate screen ??
+
 class MenuScreen extends Component {
     constructor(props) {
         super(props);
@@ -56,7 +60,7 @@ class MenuScreen extends Component {
                                 Actions.loginScreen();
                             } else {
                                 Actions.drawerClose();
-                                Actions.reviewScreen();
+                                // Actions.reviewScreen();
                             }
                         }}
                     />

@@ -24,7 +24,7 @@ export const getProjects = () => {
 
         // TODO: duplicate project data in unser object 
         // so no extra request neede 
-        
+
         // get all projects
         firebase.database().ref('/projects').once('value')
             .then((snapshot) => {
@@ -216,6 +216,10 @@ export const selectProject = (projectId) => {
                 if (project) {
                     // close current project first
                     firebase.database().ref(`/projects/${project.uid}`).off('value');
+                    selectProjectPart(projectId, dispatch);
+                } else {
+                    // no project found. just select it
+                    console.log('no project found locally');
                     selectProjectPart(projectId, dispatch);
                 }
             })

@@ -12,13 +12,29 @@ import { PlayingCard } from './common/PlayingCard';
 import { PlayingCardBack } from './common/PlayingCardBack';
 import { TeamHeadder } from './common/TeamHeadder';
 
-// TODO: go to review screen when all voted 
 class MainSelectedScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
             flip: true
         };
+    }
+
+    componentWillReceiveProps(nextProps) {
+        // console.log(' - MainSelectedScreen - componentWillReceiveProps - nextProps: ', nextProps.selectedProject);
+
+        let allSelected = true;
+
+        for (const user of nextProps.selectedProject.participants) {
+            if (user.voted === false) {
+                allSelected = false;
+                break;
+            }
+        }
+
+        if (allSelected === true) {
+            Actions.reviewScreen();
+        }
     }
 
     frontFunction() {
@@ -50,7 +66,7 @@ class MainSelectedScreen extends Component {
     }
 
     renderTopBar() {
-        // console.log('selectedProject:', this.props.selectedProject);
+        // console.log('- MainScreen - SelectedProject:', this.props.selectedProject);
         if (this.props.workOffline === false && this.props.selectedProject) {
             const { participants } = this.props.selectedProject;
             return (<TeamHeadder usersList={participants} />);
@@ -63,13 +79,7 @@ class MainSelectedScreen extends Component {
             <View style={styles.content}>
                 <Header
                     leftIcons
-                    checkStatus={this.state.flip}
-                    onSelectPress={() => {
-                        const newState = !this.state.flip;
-                        this.setState({
-                            flip: newState
-                        });
-                    }}
+                    title={this.props.selectedProject && this.props.workOffline === false ? this.props.selectedProject.name : null}
                     onCancelPress={() => {
                         this.props.unselectValue();
                         Actions.pop();

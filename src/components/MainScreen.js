@@ -23,16 +23,15 @@ const cardsData = [
 
 class MainScreen extends Component {
     // componentWillMount() {
-    //     console.log(' -- MainScreen - componentWillMount ');
+    //     console.log(' - MainScreen - componentWillMount ');
     // }
 
     // componentWillReceiveProps(nextProps) {
-    //     // TODO: act on all voted
     //     console.log(' - MainScreen - componentWillReceiveProps - nextProps: ', nextProps.workOffline);
     // }
 
     renderTopBar() {
-        // console.log('selectedProject:', this.props.selectedProject);
+        // console.log('- MainScreen - SelectedProject:', this.props.selectedProject);
         if (this.props.workOffline === false && this.props.selectedProject) {
             const { participants } = this.props.selectedProject;
             return (<TeamHeadder usersList={participants} />);
@@ -43,7 +42,7 @@ class MainScreen extends Component {
     render() {
         return (
             <View style={{ flex: 1 }}>
-                <Header />
+                <Header title={this.props.selectedProject && this.props.workOffline === false ? this.props.selectedProject.name : null} />
                 {this.renderTopBar()}
                 <FlatList
                     data={cardsData}
