@@ -7,16 +7,20 @@ import _ from 'lodash';
 import { MenuCell } from './common/MenuCell';
 import * as actions from '../actions';
 
-// TODO: create profile screen
-// TODO: create settings screen
-// TODO: create donate screen ??
-
 class MenuScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
             selectProjectEnabled: true
         };
+    }
+
+    componentWillMount() {
+        if (_.isEmpty(this.props.user)) {
+            this.setState({ selectProjectEnabled: false });
+        } else {
+            this.setState({ selectProjectEnabled: true });
+        }
     }
 
     componentWillReceiveProps(nextProps) {
@@ -60,7 +64,7 @@ class MenuScreen extends Component {
                                 Actions.loginScreen();
                             } else {
                                 Actions.drawerClose();
-                                // Actions.reviewScreen();
+                                Actions.profileScreen();
                             }
                         }}
                     />
@@ -105,9 +109,15 @@ class MenuScreen extends Component {
                             onTintColor={'#D81B60'}
                         />
                     </MenuCell>
-                    <MenuCell title='Settings' onPress={Actions.mainScreen} enabled={false} />
+                    <MenuCell
+                        title='Settings'
+                        onPress={() => {
+                            Actions.drawerClose();
+                            Actions.settingsScreen();
+                        }}
+                    />
                 </View>
-                <MenuCell title='Donate' onPress={Actions.mainScreen} enabled={false} />
+                {/* <MenuCell title='Donate' onPress={Actions.mainScreen} enabled={false} /> */}
             </View >
         );
     }

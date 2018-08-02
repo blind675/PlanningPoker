@@ -231,6 +231,39 @@ export const selectProject = (projectId) => {
     };
 };
 
+export const removeProject = () => {
+    return (dispatch) => {
+        // get current Project Id
+        store.get(STORE_PROJECT_KEY)
+            .then((project) => {
+                if (project) {
+                    // close current project first
+                    firebase.database().ref(`/projects/${project.uid}`).off('value');
+                    saveProject(null);
+                    dispatch({
+                        payload: null,
+                        type: PROJECT_SELECT_SUCESS,
+                    });
+                } else {
+                    // no project found. just select it
+                    console.log('no project found locally');
+                    dispatch({
+                        payload: null,
+                        type: PROJECT_SELECT_SUCESS,
+                    });
+                }
+            })
+            .catch((error) => {
+                console.log('selectProject - error:', error);
+                // no project saved localy so no need to deselect
+                dispatch({
+                    payload: null,
+                    type: PROJECT_SELECT_SUCESS,
+                });
+            });
+    };
+};
+
 const saveProject = (project) => {
     // save project to phone
     store.save(STORE_PROJECT_KEY, project);

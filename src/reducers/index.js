@@ -6,6 +6,7 @@ import CreateProjectReducer from './CreateProjectReducer';
 import GetProjectsReducer from './GetProjectsReducer';
 import SelectedProjectReducer from './SelectedProjectReducer';
 import WrongUsersReducer from './WrongUsersReducer';
+import SuggestionReducer from './SuggestionReducer';
 
 export default combineReducers({
     selectedValue: SelectionReducer,
@@ -15,4 +16,5 @@ export default combineReducers({
     projects: GetProjectsReducer,
     wrongUsers: WrongUsersReducer,
     selectedProject: SelectedProjectReducer,
+    suggestion: SuggestionReducer,
 });

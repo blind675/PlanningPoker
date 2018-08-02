@@ -15,6 +15,9 @@ import SelectProjectScreen from './components/SelectProjectScreen';
 import CreateProjectScreen from './components/CreateProjectScreen';
 import SplashScreen from './components/SplashScreen';
 import ReviewPageScreen from './components/ReviewPageScreen';
+import ProfileScreen from './components/ProfileScreen';
+import SettingsScreen from './components/SettingsScreen';
+import SuggestionsScreen from './components/SuggestionsScreen';
 
 const DrawerIcon = () => {
     return (<Image
@@ -64,6 +67,18 @@ const RouterComponent = () => {
                     <Scene
                         key="loginScreen"
                         component={LoginScreen}
+                    />
+                    <Scene
+                        key="profileScreen"
+                        component={ProfileScreen}
+                    />
+                    <Scene
+                        key="settingsScreen"
+                        component={SettingsScreen}
+                    />
+                    <Scene
+                        key="suggestionsScreen"
+                        component={SuggestionsScreen}
                     />
                     <Stack
                         key="projectStack"

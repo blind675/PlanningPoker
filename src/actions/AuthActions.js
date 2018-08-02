@@ -116,3 +116,13 @@ export const loadProfile = () => {
             });
     };
 };
+
+export const logout = () => {
+    return (dispatch) => {
+        saveProfile({});
+        dispatch({
+            payload: {},
+            type: USER_GET_SUCESS,
+        });
+    };
+};
