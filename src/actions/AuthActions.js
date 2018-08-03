@@ -57,7 +57,9 @@ const getProfile = (profileUid, dispatch) => {
 const createProfil = (profileId, email, dispatch) => {
     //extract name from email
     const index = email.indexOf('@');
-    const name = email.substring(0, index);
+    const nameLowercase = email.substring(0, index);
+    const name = nameLowercase.charAt(0).toUpperCase() + nameLowercase.substr(1);
+
     const nameShortLowercase = name.substring(0, 2);
     const nameShort = nameShortLowercase.charAt(0).toUpperCase() + nameShortLowercase.substr(1);
 

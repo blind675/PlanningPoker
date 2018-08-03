@@ -37,8 +37,6 @@
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
-		C412973E211315450000456C /* main.jsbundle.meta in Resources */ = {isa = PBXBuildFile; fileRef = C412973C211315450000456C /* main.jsbundle.meta */; };
-		C412973F211315450000456C /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = C412973D211315450000456C /* main.jsbundle */; };
 		C4129743211340E80000456C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C4129742211340E80000456C /* Images.xcassets */; };
 		C4129744211340E80000456C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C4129742211340E80000456C /* Images.xcassets */; };
 		ED170CCFBE2545E5924B5B0F /* libRNImagePicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6574AE1DC2444A1CA940EE29 /* libRNImagePicker.a */; };
@@ -361,8 +359,6 @@
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 		ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTBlob.xcodeproj; path = "../node_modules/react-native/Libraries/Blob/RCTBlob.xcodeproj"; sourceTree = "<group>"; };
 		BE4414D4C4D44690BC9B140B /* RNImagePicker.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNImagePicker.xcodeproj; path = "../node_modules/react-native-image-picker/ios/RNImagePicker.xcodeproj"; sourceTree = "<group>"; };
-		C412973C211315450000456C /* main.jsbundle.meta */ = {isa = PBXFileReference; lastKnownFileType = file; path = main.jsbundle.meta; sourceTree = "<group>"; };
-		C412973D211315450000456C /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
 		C4129742211340E80000456C /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = PlanningPoker/Images.xcassets; sourceTree = "<group>"; };
 		DD7F5893BC3744C89A36DEE1 /* libRNFetchBlob.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNFetchBlob.a; sourceTree = "<group>"; };
 		E35C6EF1C5FD46AD8294F165 /* RNFetchBlob.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNFetchBlob.xcodeproj; path = "../node_modules/react-native-fetch-blob/ios/RNFetchBlob.xcodeproj"; sourceTree = "<group>"; };
@@ -508,8 +504,6 @@
 			isa = PBXGroup;
 			children = (
 				C4129742211340E80000456C /* Images.xcassets */,
-				C412973D211315450000456C /* main.jsbundle */,
-				C412973C211315450000456C /* main.jsbundle.meta */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
@@ -1128,8 +1122,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				C4129743211340E80000456C /* Images.xcassets in Resources */,
-				C412973E211315450000456C /* main.jsbundle.meta in Resources */,
-				C412973F211315450000456C /* main.jsbundle in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -32,7 +32,7 @@ class ProfileScreen extends Component {
                     <View>
                         <Text style={styles.bottomNameText}> Name: {this.props.user.name} </Text>
                         <Text style={styles.bottomNameText}> Email: {this.props.user.email} </Text>
-                        <Text style={styles.bottomNameText}> Subscribed to {this.props.user.projects.length} projects</Text>
+                        <Text style={styles.bottomNameText}> Subscribed to {this.props.user.projects ? this.props.user.projects.length : '0'} projects</Text>
                     </View>
                 </View>
             </View>
