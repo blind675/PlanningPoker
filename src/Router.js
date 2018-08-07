@@ -4,7 +4,8 @@ import {
     Router,
     Scene,
     Stack,
-    Drawer
+    Drawer,
+    ActionConst
 } from 'react-native-router-flux';
 
 import MainScreen from './components/MainScreen';
@@ -40,7 +41,7 @@ const RouterComponent = () => {
                     component={SplashScreen}
                     initial
                 />
-                <Stack key="mainStack" hideNavBar>
+                <Stack key="mainStack" hideNavBar type={ActionConst.RESET} swipeEnabled={false}>
                     <Drawer
                         hideNavBar
                         key="mainDrawer"
