@@ -1,4 +1,4 @@
-package com.planningpoker;
+package com.bob.dev.planningpoker;
 
 import com.facebook.react.ReactActivity;
 

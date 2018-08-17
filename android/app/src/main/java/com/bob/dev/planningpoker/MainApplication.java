@@ -1,4 +1,4 @@
-package com.planningpoker;
+package com.bob.dev.planningpoker;
 
 import android.app.Application;
 
